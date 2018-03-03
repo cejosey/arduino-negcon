@@ -1,23 +1,15 @@
 #include "Joystick.h"
 
-/* Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, 
+Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, 
   JOYSTICK_TYPE_MULTI_AXIS, 8, 0,
   true, true, false, false, false, false,
   false, false, true, true, true);
-*/
-Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,JOYSTICK_TYPE_GAMEPAD,
-  8, 0,                  // Button Count, Hat Switch Count
-  true, true, false,     // X and Y, but no Z Axis
-  true, true, true,   // No Rx, Ry, or Rz
-  false, false,          // No rudder or throttle
-  false, false, false);  // No accelerator, brake, or steering
-
 
 int steerValue = 0;
 int acceleratorValue = 0;
 int brakeValue = 0;
 
-int lastButtonState[12] = {0,0,0,0,0,0,0,0};
+int lastButtonState[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
 void setup() {
   pinMode(2, INPUT_PULLUP);
@@ -28,23 +20,16 @@ void setup() {
   pinMode(7, INPUT_PULLUP);
   pinMode(8, INPUT_PULLUP);
   pinMode(9, INPUT_PULLUP);
-/*  pinMode(10, INPUT_PULLUP);
+  pinMode(10, INPUT_PULLUP);
   pinMode(11, INPUT_PULLUP);
   pinMode(12, INPUT_PULLUP);
   pinMode(13, INPUT_PULLUP);
-  */
+
   Joystick.begin();
-/*
+
   Joystick.setSteeringRange(0, 1023);
   Joystick.setAcceleratorRange(0, 1023);
   Joystick.setBrakeRange(0, 1023);
-  Joystick.setXAxisRange(-1, 1);
-  Joystick.setYAxisRange(-1, 1);
-*/
-
-  Joystick.setRxAxisRange(0, 1023);
-  Joystick.setRyAxisRange(0, 1023);
-  Joystick.setRyAxisRange(0, 1023);
   Joystick.setXAxisRange(-1, 1);
   Joystick.setYAxisRange(-1, 1);
 
@@ -55,45 +40,58 @@ void loop() {
   acceleratorValue = analogRead(A1);
   brakeValue = analogRead(A2);
 
-  Joystick.setRxAxis(steerValue);
-  Joystick.setRyAxis(acceleratorValue);
-  Joystick.setRzAxis(brakeValue);
-
-  Joystick.setXAxis(0);
-  Joystick.setYAxis(0);
+  Joystick.setSteering(steerValue);
+  Joystick.setAccelerator(acceleratorValue);
+  Joystick.setBrake(brakeValue);
 
    // Read pin values
-  for (int index = 0; index < 8; index++)
+  for (int index = 0; index < 12; index++)
   {
     int currentButtonState = !digitalRead(index + 2);
     if (currentButtonState != lastButtonState[index])
     {
       switch (index) {
         case 0: // UP
-          Joystick.setButton(index, currentButtonState);
+          if (currentButtonState == 1) {
+            Joystick.setYAxis(-1);
+          } else {
+            Joystick.setYAxis(0);
+          }
           break;
         case 1: // RIGHT
-          Joystick.setButton(index, currentButtonState);
+          if (currentButtonState == 1) {
+            Joystick.setXAxis(1);
+          } else {
+            Joystick.setXAxis(0);
+          }
           break;
         case 2: // DOWN
-          Joystick.setButton(index, currentButtonState);
+          if (currentButtonState == 1) {
+            Joystick.setYAxis(1);
+          } else {
+            Joystick.setYAxis(0);
+          }
           break;
         case 3: // LEFT
-          Joystick.setButton(index, currentButtonState);
+          if (currentButtonState == 1) {
+            Joystick.setXAxis(-1);
+          } else {
+            Joystick.setXAxis(0);
+          }
           break;
-        case 4: // R
-          Joystick.setButton(index, currentButtonState);
+        case 4: // L
+          Joystick.setButton(index - 4, currentButtonState);
           break;
-        case 5: // A
-          Joystick.setButton(index, currentButtonState);
+        case 5: // R
+          Joystick.setButton(index - 4, currentButtonState);
           break;
-        case 6: // B
-          Joystick.setButton(index, currentButtonState);
+        case 6: // A
+          Joystick.setButton(index - 4, currentButtonState);
           break;
-        case 7: // START
-          Joystick.setButton(index, currentButtonState);
+        case 7: // B
+          Joystick.setButton(index - 4, currentButtonState);
           break;
-/*        case 8: // X
+        case 8: // X
           Joystick.setButton(index - 4, currentButtonState);
           break;
         case 9: // Y
@@ -104,7 +102,7 @@ void loop() {
           break;
         case 11: // SELECT
           Joystick.setButton(index - 4, currentButtonState);
-          break; */
+          break;
       }
       lastButtonState[index] = currentButtonState;
     }
