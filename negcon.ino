@@ -2,13 +2,13 @@
 
 Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, 
   JOYSTICK_TYPE_MULTI_AXIS, 8, 0,
-  true, true, true, false, false, false,
+  true, true, false, false, false, false,
   false, false, true, true, true);
 
 int steerValue = 0;
 int acceleratorValue = 0;
 int brakeValue = 0;
-int lValue = 0;
+// int lValue = 0;
 
 int lastButtonState[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -33,7 +33,7 @@ void setup() {
   Joystick.setBrakeRange(0, 1023);
   Joystick.setXAxisRange(-1, 1);
   Joystick.setYAxisRange(-1, 1);
-  Joystick.setZAxisRange(0, 1023);
+//  Joystick.setZAxisRange(0, 1023);
 
 }
 
@@ -41,12 +41,12 @@ void loop() {
   steerValue = analogRead(A0);
   acceleratorValue = analogRead(A1);
   brakeValue = analogRead(A2);
-  lValue = analogRead(A3);
+//  lValue = analogRead(A3);
 
   Joystick.setSteering(steerValue);
   Joystick.setAccelerator(acceleratorValue);
   Joystick.setBrake(brakeValue);
-  Joystick.setZAxis(lValue);
+  // Joystick.setZAxis(lValue);
 
    // Read pin values
   for (int index = 0; index < 12; index++)
