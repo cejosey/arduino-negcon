@@ -45,7 +45,7 @@ void loop() {
 
   Joystick.setSteering(steerValue);
   Joystick.setAccelerator((acceleratorValue/2) + 512);
-  Joystick.setBrake((brakeValue/2) + 512);
+  Joystick.setBrake(-((brakeValue/2) + 512));
 
    // Read pin values
   for (int index = 0; index < 12; index++)
@@ -84,7 +84,7 @@ void loop() {
           break;
         case 4: // L
           Joystick.setButton(index - 4, currentButtonState);
-          lValue = -1;
+          Joystick.setZAxis(currentButtonState);
           break;
         case 5: // R
           Joystick.setButton(index - 4, currentButtonState);
@@ -110,8 +110,7 @@ void loop() {
       }
       lastButtonState[index] = currentButtonState;
 
-      Joystick.setZAxis(lValue);
-      lValue = 0;
+      //lValue = 0;
     }
   }
 
