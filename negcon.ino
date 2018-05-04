@@ -33,7 +33,7 @@ void setup() {
   Joystick.setBrakeRange(0, 1023);
   Joystick.setXAxisRange(-1, 1);
   Joystick.setYAxisRange(-1, 1);
-  Joystick.setZAxisRange(-1, 0);
+  Joystick.setZAxisRange(-1, 1);
 
 }
 
@@ -45,7 +45,7 @@ void loop() {
 
   Joystick.setSteering(steerValue);
   Joystick.setAccelerator((acceleratorValue/2) + 512);
-  Joystick.setBrake(-((brakeValue/2) + 512));
+  Joystick.setBrake((brakeValue/2) + 512);
 
    // Read pin values
   for (int index = 0; index < 12; index++)
@@ -56,35 +56,39 @@ void loop() {
       switch (index) {
         case 0: // UP
           if (currentButtonState == 1) {
-            Joystick.setYAxis(-1);
+            Joystick.setYAxis(1);
           } else {
             Joystick.setYAxis(0);
           }
           break;
         case 1: // RIGHT
           if (currentButtonState == 1) {
-            Joystick.setXAxis(1);
+            Joystick.setXAxis(-1);
           } else {
             Joystick.setXAxis(0);
           }
           break;
         case 2: // DOWN
           if (currentButtonState == 1) {
-            Joystick.setYAxis(1);
+            Joystick.setYAxis(-1);
           } else {
             Joystick.setYAxis(0);
           }
           break;
         case 3: // LEFT
           if (currentButtonState == 1) {
-            Joystick.setXAxis(-1);
+            Joystick.setXAxis(1);
           } else {
             Joystick.setXAxis(0);
           }
           break;
         case 4: // L
           Joystick.setButton(index - 4, currentButtonState);
-          Joystick.setZAxis(currentButtonState);
+          if (currentButtonState == 1) {
+            Joystick.setZAxis(-1);
+          } else {
+            Joystick.setZAxis(0);
+          }
           break;
         case 5: // R
           Joystick.setButton(index - 4, currentButtonState);
