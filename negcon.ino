@@ -36,7 +36,7 @@ void setup() {
   Joystick.setYAxisRange(-1, 1);
   Joystick.setZAxisRange(-1, 1);
 
-  Joystick.setZAxis(1);
+  Joystick.setZAxis(-1);
 
 }
 
@@ -100,9 +100,9 @@ void loop() {
         case 4: // L
           // Joystick.setButton(index - 4, currentButtonState);
           if (currentButtonState == 1) {
-            Joystick.setZAxis(-1);
-          } else {
             Joystick.setZAxis(1);
+          } else {
+            Joystick.setZAxis(-1);
           }
           break;
         case 5: // R
