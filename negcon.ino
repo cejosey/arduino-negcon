@@ -8,7 +8,8 @@ Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
 int steerValue = 0;
 int acceleratorValue = 0;
 int brakeValue = 0;
-int lValue = 0;
+int IValue = 0;
+int IIValue = 0;
 
 int lastButtonState[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -35,6 +36,8 @@ void setup() {
   Joystick.setYAxisRange(-1, 1);
   Joystick.setZAxisRange(-1, 1);
 
+  Joystick.setZAxis(1);
+
 }
 
 void loop() {
@@ -43,10 +46,22 @@ void loop() {
   brakeValue = analogRead(A2);
 //  lValue = analogRead(A3);
 
+  IValue = !digitalRead(9);
+  IIValue = !digitalRead(11);
+  
   Joystick.setSteering(steerValue);
-  Joystick.setAccelerator((acceleratorValue/2) + 512);
-  Joystick.setBrake((brakeValue/2) + 512);
 
+  if (IValue == 1) {
+    Joystick.setAccelerator(1023);
+  } else {
+    Joystick.setAccelerator((acceleratorValue/2) + 512);
+  }
+  if (IIValue == 1) {
+    Joystick.setBrake(1023);
+  } else {
+    Joystick.setBrake((brakeValue/2) + 512);
+  }
+  
    // Read pin values
   for (int index = 0; index < 12; index++)
   {
@@ -87,7 +102,7 @@ void loop() {
           if (currentButtonState == 1) {
             Joystick.setZAxis(-1);
           } else {
-            Joystick.setZAxis(0);
+            Joystick.setZAxis(1);
           }
           break;
         case 5: // R
@@ -96,15 +111,25 @@ void loop() {
         case 6: // A
           Joystick.setButton(index - 4, currentButtonState);
           break;
-        case 7: // B
+/*        case 7: // B = I - gas
+          Joystick.setButton(index - 4, currentButtonState);
+          if (currentButtonState == 1) {
+            Joystick.setAccelerator(1023);
+          } else {
+            Joystick.setAccelerator(acceleratorValue);
+          }
+          break; */
+        case 8: // X = B
           Joystick.setButton(index - 4, currentButtonState);
           break;
-        case 8: // X
+/*        case 9: // Y = II - brakes
           Joystick.setButton(index - 4, currentButtonState);
-          break;
-        case 9: // Y
-          Joystick.setButton(index - 4, currentButtonState);
-          break;
+          if (currentButtonState == 1) {
+            Joystick.setBrake(1023);
+          } else {
+            Joystick.setBrake(brakeValue);
+          }
+          break; */
         case 10: // START
           Joystick.setButton(index - 4, currentButtonState);
           break;
@@ -114,7 +139,6 @@ void loop() {
       }
       lastButtonState[index] = currentButtonState;
 
-      //lValue = 0;
     }
   }
 
