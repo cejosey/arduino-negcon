@@ -54,12 +54,12 @@ void loop() {
   if (IValue == 1) {
     Joystick.setAccelerator(1023);
   } else {
-    Joystick.setAccelerator((acceleratorValue/2) + 512);
+    Joystick.setAccelerator(acceleratorValue);
   }
   if (IIValue == 1) {
     Joystick.setBrake(1023);
   } else {
-    Joystick.setBrake((brakeValue/2) + 512);
+    Joystick.setBrake(brakeValue);
   }
   
    // Read pin values
@@ -98,7 +98,7 @@ void loop() {
           }
           break;
         case 4: // L
-          Joystick.setButton(index - 4, currentButtonState);
+          // Joystick.setButton(index - 4, currentButtonState);
           if (currentButtonState == 1) {
             Joystick.setZAxis(-1);
           } else {
