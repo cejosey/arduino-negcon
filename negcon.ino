@@ -84,7 +84,7 @@ void loop() {
           break;
         case 4: // L
           Joystick.setButton(index - 4, currentButtonState);
-          lvalue = -1
+          lValue = -1;
           break;
         case 5: // R
           Joystick.setButton(index - 4, currentButtonState);
@@ -111,7 +111,7 @@ void loop() {
       lastButtonState[index] = currentButtonState;
 
       Joystick.setZAxis(lValue);
-      lvalue = 0
+      lValue = 0;
     }
   }
 
