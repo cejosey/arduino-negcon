@@ -48,18 +48,36 @@ void loop() {
 
   IValue = !digitalRead(9);
   IIValue = !digitalRead(11);
-  
-  Joystick.setSteering(steerValue);
 
-  if (IValue == 1) {
-    Joystick.setAccelerator(1023);
+  if (IValue == 1 && IIValue == 1) {
+    // this is a workaround for emulation station
+    // it expects a normal analog controller where
+    // all analog axis are at rest at 0 normally
+    // where in a negcon the gas and brake are at 
+    // negative full normally, and this is what 
+    // Gran Turismo expects for a negcon controller
+    // emulation station goes haywire when starting
+    // the emulator (the "hold a button to configure"
+    // screen).  If you hold I and II simultaneously
+    // as the emulator starts, it sets all analog
+    // axis to 0 while it's held down.  Release once
+    // the game starts and all should be well...?
+    Joystick.setSteering(0);
+    Joystick.setAccelerator(0);
+    Joystick.setBrake(0);
   } else {
-    Joystick.setAccelerator(acceleratorValue);
-  }
-  if (IIValue == 1) {
-    Joystick.setBrake(1023);
-  } else {
-    Joystick.setBrake(brakeValue);
+    Joystick.setSteering(steerValue);
+  
+    if (IValue == 1) {
+      Joystick.setAccelerator(1023);
+    } else {
+      Joystick.setAccelerator(acceleratorValue);
+    }
+    if (IIValue == 1) {
+      Joystick.setBrake(1023);
+    } else {
+      Joystick.setBrake(brakeValue);
+    }
   }
   
    // Read pin values
