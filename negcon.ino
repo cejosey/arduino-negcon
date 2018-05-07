@@ -91,10 +91,17 @@ void loop() {
           break;
         case 1: // RIGHT
           if (currentButtonState == 1) {
-            Joystick.setXAxis(-1);
+            if (gamePlayOverride == 1) {
+              Joystick.setButton(4, currentButtonState);
+            } else {
+                Joystick.setXAxis(1);
+            }
           } else {
-            Joystick.setXAxis(0);
-          }
+            if (gamePlayOverride == 1) {
+              Joystick.setButton(4, currentButtonState);
+            } else {
+                Joystick.setXAxis(0);
+            }          }
           break;
         case 2: // DOWN
           if (currentButtonState == 1) {
@@ -105,10 +112,17 @@ void loop() {
           break;
         case 3: // LEFT
           if (currentButtonState == 1) {
-            Joystick.setXAxis(1);
+            if (gamePlayOverride == 1) {
+              Joystick.setButton(2, currentButtonState);
+            } else {
+                Joystick.setXAxis(1);
+            }
           } else {
-            Joystick.setXAxis(0);
-          }
+            if (gamePlayOverride == 1) {
+              Joystick.setButton(2, currentButtonState);
+            } else {
+                Joystick.setXAxis(0);
+            }          }
           break;
         case 4: // L
           // Joystick.setButton(index - 4, currentButtonState);
