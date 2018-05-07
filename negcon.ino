@@ -29,9 +29,9 @@ void setup() {
 
   Joystick.begin();
 
-  Joystick.setSteeringRange(0, 1023);
-  Joystick.setAcceleratorRange(0, 1023);
-  Joystick.setBrakeRange(0, 1023);
+  Joystick.setSteeringRange(0, 1024);
+  Joystick.setAcceleratorRange(0, 1024);
+  Joystick.setBrakeRange(0, 1024);
   Joystick.setXAxisRange(-1, 1);
   Joystick.setYAxisRange(-1, 1);
   Joystick.setZAxisRange(-1, 1);
@@ -52,12 +52,12 @@ void loop() {
   Joystick.setSteering(steerValue);
 
   if (IValue == 1) {
-    Joystick.setAccelerator(1023);
+    Joystick.setAccelerator(1024);
   } else {
     Joystick.setAccelerator(acceleratorValue);
   }
   if (IIValue == 1) {
-    Joystick.setBrake(1023);
+    Joystick.setBrake(1024);
   } else {
     Joystick.setBrake(brakeValue);
   }
