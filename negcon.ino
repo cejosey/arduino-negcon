@@ -10,10 +10,14 @@ int acceleratorValue = 0;
 int brakeValue = 0;
 int IValue = 0;
 int IIValue = 0;
+int analogOverride = 0;
+int gamePlayOverride = 0;
 
 int lastButtonState[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
 void setup() {
+  pinMode(0, INPUT_PULLUP);
+  pinMode(1, INPUT_PULLUP);
   pinMode(2, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
   pinMode(4, INPUT_PULLUP);
@@ -48,20 +52,29 @@ void loop() {
 
   IValue = !digitalRead(9);
   IIValue = !digitalRead(11);
-  
-  Joystick.setSteering(steerValue);
 
-  if (IValue == 1) {
-    Joystick.setAccelerator(1024);
+  analogOverride = !digitalRead(0);
+  gamePlayOverride = !digitalRead(1);
+
+  if (analogOverride == 1) {
+    Joystick.setSteering(512);
+    Joystick.setAccelerator(512);
+    Joystick.setBrake(512);
+    Joystick.setZAxis(0);
   } else {
-    Joystick.setAccelerator(acceleratorValue);
-  }
-  if (IIValue == 1) {
-    Joystick.setBrake(1024);
-  } else {
-    Joystick.setBrake(brakeValue);
-  }
+    Joystick.setSteering(steerValue);
   
+    if (IValue == 1) {
+      Joystick.setAccelerator(1024);
+    } else {
+      Joystick.setAccelerator(acceleratorValue);
+    }
+    if (IIValue == 1) {
+      Joystick.setBrake(1024);
+    } else {
+      Joystick.setBrake(brakeValue);
+    }
+  }
    // Read pin values
   for (int index = 0; index < 12; index++)
   {
