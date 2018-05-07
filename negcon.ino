@@ -10,6 +10,7 @@ int acceleratorValue = 0;
 int brakeValue = 0;
 int IValue = 0;
 int IIValue = 0;
+int lValue = 0;
 int analogOverride = 0;
 int gamePlayOverride = 0;
 
@@ -52,7 +53,7 @@ void loop() {
 
   IValue = !digitalRead(9);
   IIValue = !digitalRead(11);
-
+  lValue = !digitalRead(6);
   analogOverride = !digitalRead(0);
   gamePlayOverride = !digitalRead(1);
 
@@ -74,7 +75,13 @@ void loop() {
     } else {
       Joystick.setBrake(brakeValue);
     }
+    if (lValue == 1) {
+      Joystick.setZAxis(1);
+    } else {
+      Joystick.setZAxis(-1);
+    }
   }
+  
    // Read pin values
   for (int index = 0; index < 12; index++)
   {
@@ -94,7 +101,7 @@ void loop() {
             if (gamePlayOverride == 1) {
               Joystick.setButton(4, currentButtonState);
             } else {
-                Joystick.setXAxis(1);
+                Joystick.setXAxis(-1);
             }
           } else {
             if (gamePlayOverride == 1) {
@@ -125,11 +132,8 @@ void loop() {
             }          }
           break;
         case 4: // L
-          // Joystick.setButton(index - 4, currentButtonState);
-          if (currentButtonState == 1) {
-            Joystick.setZAxis(1);
-          } else {
-            Joystick.setZAxis(-1);
+          if (analogOverride == 1) {
+            Joystick.setButton(index - 4, currentButtonState);
           }
           break;
         case 5: // R
@@ -138,25 +142,19 @@ void loop() {
         case 6: // A
           Joystick.setButton(index - 4, currentButtonState);
           break;
-/*        case 7: // B = I - gas
-          Joystick.setButton(index - 4, currentButtonState);
-          if (currentButtonState == 1) {
-            Joystick.setAccelerator(1023);
-          } else {
-            Joystick.setAccelerator(acceleratorValue);
-          }
-          break; */
+         case 7: // B = I - gas
+           if (analogOverride == 1) {
+             Joystick.setButton(index - 4, currentButtonState);
+           }
+          break;
         case 8: // X = B
           Joystick.setButton(index - 4, currentButtonState);
           break;
-/*        case 9: // Y = II - brakes
-          Joystick.setButton(index - 4, currentButtonState);
-          if (currentButtonState == 1) {
-            Joystick.setBrake(1023);
-          } else {
-            Joystick.setBrake(brakeValue);
+        case 9: // Y = II - brakes
+          if (analogOverride == 1) {
+            Joystick.setButton(index - 4, currentButtonState);
           }
-          break; */
+          break;
         case 10: // START
           Joystick.setButton(index - 4, currentButtonState);
           break;
